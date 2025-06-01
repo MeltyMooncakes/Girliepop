@@ -1,7 +1,6 @@
 import { execSync } from "child_process";
-import { AttachmentBuilder, ButtonInteraction, DMChannel, EmbedBuilder, Message, messageLink } from "discord.js";
+import { AttachmentBuilder, ButtonInteraction, DMChannel, EmbedBuilder, Message } from "discord.js";
 import { DiscordClient } from "..";
-import { CaptchaManager } from "../managers/captcha";
 import { VerificationTimedOut } from "../errors";
 
 export default class Captcha {

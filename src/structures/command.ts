@@ -1,7 +1,5 @@
-
 import { Message, SlashCommandOptionsOnlyBuilder } from "discord.js";
 import { DiscordClient } from "../";
-
 
 export default class Command {
 	client: DiscordClient;

@@ -15,7 +15,7 @@ export class Command {
 		this.client = client;
 	}
 
-	async message(message: Message, args: string[]) {
+	async message(message: Message, _args: string[]) {
 		return await message.reply({
 			embeds: [
 				new EmbedBuilder()

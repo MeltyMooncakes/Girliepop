@@ -1,6 +1,5 @@
-import { AttachmentBuilder, ButtonInteraction, DMChannel, EmbedBuilder, Interaction, MessageFlags } from "discord.js";
+import { ButtonInteraction, Interaction } from "discord.js";
 import { DiscordClient } from "..";
-import { CouldNotDM } from "../errors";
 
 export class Event {
 	type = "interactionCreate";
