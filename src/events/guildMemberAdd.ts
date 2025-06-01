@@ -7,6 +7,8 @@ export class Event {
 	
 	constructor() {}
 
+	// TODO move to verification process
+
 	async run(client: DiscordClient, member: GuildMember) {
 		// if account is younger than 30 days.
 		if ((Date.now() - (member?.joinedTimestamp || 2592e6)) < 2592e6) {

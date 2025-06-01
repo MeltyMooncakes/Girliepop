@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/canvasjs':
-        specifier: ^1.9.11
-        version: 1.9.11
       axios:
         specifier: ^1.9.0
         version: 1.9.0
@@ -69,9 +66,6 @@ packages:
   '@sapphire/snowflake@3.5.3':
     resolution: {integrity: sha512-jjmJywLAFoWeBi1W7994zZyiNWPIiqRRNAmSERxyg93xRGzNYvGjlZ0gR6x0F4gPRi2+0O6S71kOZYyr3cxaIQ==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
-
-  '@types/canvasjs@1.9.11':
-    resolution: {integrity: sha512-sx1sJS7Y9Hy/jd70Zj23xn2c5LE2tXM3Puh0aQoaMdTeHkbwueeTUeN531sepyujj47UZZGvim85DLiOjpiUeQ==}
 
   '@types/node@22.15.29':
     resolution: {integrity: sha512-LNdjOkUDlU1RZb8e1kOIUpN1qQUlzGkEtbVNo53vbrwDg5om6oduhm4SiUaPW5ASTXhAiP0jInWG8Qx9fVlOeQ==}
@@ -417,8 +411,6 @@ snapshots:
       lodash: 4.17.21
 
   '@sapphire/snowflake@3.5.3': {}
-
-  '@types/canvasjs@1.9.11': {}
 
   '@types/node@22.15.29':
     dependencies:
