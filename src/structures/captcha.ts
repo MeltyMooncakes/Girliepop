@@ -65,6 +65,8 @@ export default class Captcha {
 			return this.complete(m);
 		}
 
+		this.timeout.refresh();
+
 		this.attempts++;
 		console.log(`[VERIFY] [${this.interaction.user.id}] Captcha prompt incorrect, ${5 - this.attempts} attempts remaining.`);
 		return m.reply(`Incorrect string of characters, \`${5 - this.attempts}\` attempts remaining.`)
