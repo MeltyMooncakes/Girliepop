@@ -2,6 +2,7 @@ import { execSync } from "child_process";
 import { AttachmentBuilder, ButtonInteraction, DMChannel, EmbedBuilder, Message, messageLink } from "discord.js";
 import { DiscordClient } from "..";
 import { CaptchaManager } from "../managers/captcha";
+import { VerificationTimedOut } from "../errors";
 
 export default class Captcha {
 	client: DiscordClient;
@@ -14,9 +15,24 @@ export default class Captcha {
 	attempts: number = 0;
 	exp: RegExp;
 
+	dmChannel: DMChannel;
+
+	timeout: NodeJS.Timeout;
+
 	constructor(client: DiscordClient, interaction: ButtonInteraction) {
 		this.client = client;
 		this.interaction = interaction;
+		this.timeout = setTimeout(async () => {
+			console.log(`[VERIFY] [${interaction.user.id}] Captcha has timed out.`);
+			this.end();
+			try {
+				this.dmChannel.send({
+					embeds: [VerificationTimedOut],
+				});
+			} catch (e) {
+				console.log(`[VERIFY] [${interaction.user.id}] Captcha has failed for reason: Could not DM.`);
+			}
+		}, 3e4);
 	}
 
 	async generate(): Promise<Captcha> {
@@ -32,6 +48,7 @@ export default class Captcha {
 	}
 
 	async sendMessage(dmChannel: DMChannel) {
+		this.dmChannel = dmChannel;
 		this.captchaMessage = await dmChannel.send({
 			embeds: [
 				new EmbedBuilder()
@@ -69,6 +86,7 @@ export default class Captcha {
 	}
 
 	end() {
+		clearTimeout(this.timeout);
 		this.client.captchas.delete(this.interaction.id);
 	}
 }

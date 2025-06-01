@@ -22,3 +22,13 @@ export const AlreadyVerified = new EmbedBuilder()
 	.setTitle("Error: Already verified.")
 	.setDescription("You are already verfied.")
 	.setColor("Red")
+
+export const AlreadyVerifying = new EmbedBuilder()
+	.setTitle("Error: Already verifying.")
+	.setDescription("You already have a pending captcha.")
+	.setColor("Red")
+
+export const VerificationTimedOut = new EmbedBuilder()
+	.setTitle("Error: Timed out.")
+	.setDescription("Your captcha has timed out.")
+	.setColor("Red")

@@ -6,6 +6,6 @@ export class Event {
 	constructor() { }
 
 	async run(client: DiscordClient) {
-		console.log("bwaa");
+		console.log(`[BOT] I AM ALIVE BITCHES`);
 	}
 }

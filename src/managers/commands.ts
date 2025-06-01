@@ -30,6 +30,6 @@ export class CommandManager extends CollectionManager<string, Command> {
 			}
 		}
 
-		this.client.emit("managerCommandsLoaded");
+		console.log(`[MANAGER] ${this.client.commands.size} Commands loaded.`);
 	}
 }
