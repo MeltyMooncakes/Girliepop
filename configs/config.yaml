@@ -1,0 +1,6 @@
+embedColour: "#dd9ac2"
+
+# this is a regular expression, keep it that way
+prefix: ^(s!|<@(!?)1378092197123063888>\ )
+developers:
+  - "290610400763052035"

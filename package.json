@@ -1,0 +1,22 @@
+{
+	"name": "girls-bot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "tsc && pnpm start",
+		"build": "tsc",
+		"start": "node dist"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.10.0",
+	"dependencies": {
+		"@types/canvasjs": "^1.9.11",
+		"axios": "^1.9.0",
+		"discord.js": "^14.19.3",
+		"glob": "^11.0.2",
+		"yaml": "^2.8.0"
+	}
+}
