@@ -19,6 +19,7 @@ class Captcha {
         this.buffer = Buffer.from(captcha[1].split(",")[1], "base64");
         this.value = captcha[0];
         this.exp = new RegExp(this.value, "i");
+        console.log(`[VERIFY] [${this.interaction.user.id}] Creating captcha for user.`);
         return this;
     }
     async sendMessage(dmChannel) {
@@ -33,11 +34,11 @@ class Captcha {
         });
     }
     async collect(m) {
-        console.log("hgdrhggrdse");
         if (this.exp.test(m.content)) {
             return this.complete(m);
         }
         this.attempts++;
+        console.log(`[VERIFY] [${this.interaction.user.id}] Captcha prompt incorrect, ${5 - this.attempts} attempts remaining.`);
         return m.reply(`Incorrect string of characters, \`${5 - this.attempts}\` attempts remaining.`);
     }
     async complete(m) {
@@ -47,6 +48,10 @@ class Captcha {
         await m.reply({
             content: "Verification completed, Welcome to the server!",
         });
+        console.log(`[VERIFY] [${this.interaction.user.id}] Verification for user has completed.`);
+        this.end();
+    }
+    end() {
         this.client.captchas.delete(this.interaction.id);
     }
 }

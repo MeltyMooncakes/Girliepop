@@ -5,6 +5,7 @@ const errors_1 = require("../errors");
 class Event {
     type = "guildMemberAdd";
     constructor() { }
+    // TODO move to verification process
     async run(client, member) {
         // if account is younger than 30 days.
         if ((Date.now() - (member?.joinedTimestamp || 2592e6)) < 2592e6) {

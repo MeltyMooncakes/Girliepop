@@ -16,8 +16,8 @@ class CaptchaManager extends manager_1.CollectionManager {
         super(client);
     }
     async create(interaction) {
-        // @ts-ignore
-        if (interaction.member?.roles.cache.has("1231247596471717908")) {
+        if (interaction.guild?.members.cache.get(interaction.user.id)?.roles.cache.has("1231247596471717908")) {
+            console.log(`[VERIFY] [${interaction.user.id}] Captcha has failed for reason: Already verified.`);
             return await interaction.reply({
                 embeds: [errors_1.AlreadyVerified],
                 flags: [discord_js_1.MessageFlags.Ephemeral],
@@ -32,7 +32,16 @@ class CaptchaManager extends manager_1.CollectionManager {
             });
             this.set(interaction.id, captcha);
         })
-            .catch(e => { throw e; });
+            .catch(() => {
+            console.log(`[VERIFY] [${interaction.user.id}] Captcha has failed for reason: Could not DM.`);
+            captcha.end();
+            return interaction.reply({
+                embeds: [errors_1.CouldNotDM],
+                flags: [discord_js_1.MessageFlags.Ephemeral],
+            }).catch(() => {
+                console.log(`[VERIFY] [${interaction.user.id}] Could not inform user, interaction fuckery.`);
+            });
+        });
     }
 }
 exports.CaptchaManager = CaptchaManager;

@@ -9,12 +9,8 @@ class Event {
         if (message.author.id === client?.user?.id) {
             return;
         }
-        const captcha = client.captchas.find(k => {
-            console.log(k.captchaMessage.channelId, message.channelId);
-            return k.captchaMessage.channelId === message.channelId;
-        });
+        const captcha = client.captchas.find(k => k.captchaMessage.channelId === message.channelId);
         if (captcha) {
-            console.log("eghresdunhgewr");
             return await captcha.collect(message);
         }
         if (message.author.bot || !client.config.prefix.test(message.content)) {
