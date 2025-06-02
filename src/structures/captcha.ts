@@ -77,6 +77,8 @@ export default class Captcha {
 			?.members.fetch(this.interaction.user.id)
 		)?.roles.add("1231247596471717908");
 
+		this.client.automod.verify(this.interaction.user.id);
+
 		await m.reply({
 			content: "Verification completed, Welcome to the server!",
 		});

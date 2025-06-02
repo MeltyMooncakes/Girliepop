@@ -8,9 +8,8 @@ export class Event {
 	constructor() { }
 
 	async run(client: DiscordClient, member: GuildMember) {
+		client.automod.unverifiedMembers.push(member.id);
 
-		if (member.id === "1372852461521342476") {
-		}
 		// if account is younger than 30 days.
 		if ((Date.now() - (member?.user.createdTimestamp || 2592e6)) < 2592e6 && member.id !== "1372852461521342476") {
 			console.log(`[MOD] [${member.id}] Account created less than 30 days ago, user has been kicked.`);

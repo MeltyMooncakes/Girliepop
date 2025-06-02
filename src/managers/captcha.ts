@@ -22,7 +22,7 @@ export class CaptchaManager extends CollectionManager<string, Captcha> {
 			});
 		}
 
-		// if user is already verifyied.
+		// if user is already verified.
 		if (interaction.guild?.members.cache.get(interaction.user.id)?.roles.cache.has("1231247596471717908")) {
 			console.log(`[VERIFY] [${interaction.user.id}] Captcha has failed for reason: Already verified.`);
 			return await interaction.reply({

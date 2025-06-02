@@ -6,6 +6,7 @@ import { resolve } from "path";
 import { CommandManager } from "./managers/commands";
 import { exit } from "process";
 import { CaptchaManager } from "./managers/captcha";
+import { Automod } from "./managers/automod";
 
 
 export class DiscordClient extends Client {
@@ -13,6 +14,7 @@ export class DiscordClient extends Client {
 	config: ClientConfig;
 	commands: CommandManager;
 	captchas: CaptchaManager;
+	automod: Automod;
 
 	constructor(options: ClientOptions) {
 		super(options);
@@ -28,6 +30,7 @@ export class DiscordClient extends Client {
 		this.config.prefix = new RegExp(this.config.prefix, "i");
 		this.commands = new CommandManager(this);
 		this.captchas = new CaptchaManager(this);
+		this.automod = new Automod(this);
 	}
 
 	async start() {

@@ -13,6 +13,11 @@ export const AccountNotOldEnough = new EmbedBuilder()
 	.setDescription("You have been kicked from the Girls server for the reason: `Account age less than 30 days.`")
 	.setColor("Red")
 
+export const AccountUnverifiedTooLong = new EmbedBuilder()
+	.setTitle("Error: You have not been verified for longer than 30 days.")
+	.setDescription("You have been kicked from the Girls server for the reason: `Account unverified longer than 30 days.`")
+	.setColor("Red")
+
 export const CouldNotDM = new EmbedBuilder()
 	.setTitle("Error: Could not DM.")
 	.setDescription("I could not create a DM Channel with you.")
