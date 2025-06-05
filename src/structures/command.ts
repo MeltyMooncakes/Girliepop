@@ -1,7 +1,7 @@
 import { Message, SlashCommandOptionsOnlyBuilder } from "discord.js";
 import { DiscordClient } from "../";
 
-export default class Command {
+export default class DiscordCommand {
 	client: DiscordClient;
 
 	name: string;
@@ -15,5 +15,6 @@ export default class Command {
 	constructor(client: DiscordClient) {
 		this.client = client;
 	}
+	
 	async message(message: Message, args: string[]) {}
 }

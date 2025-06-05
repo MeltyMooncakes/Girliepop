@@ -22,15 +22,27 @@ export class Automod extends Manager {
 
 		// @ts-ignore
 		for (const member of verificationChannel?.members.values()) {
+			if (!member) {
+				return;
+			}
+
 			if (!member.roles.cache.has("1231247596471717908") && !member.roles.cache.has("1231247596459130983")) {
 				this.unverifiedMembers.push(member.id);
 			}
 		}
 
 		setInterval(async () => {
-			for await (const member of this.unverifiedMembers.map(m => this.server.members.fetch(m))) {
+			for (const memberId of this.unverifiedMembers) {
+				// get member in a way that doesnt bitch about it
+				let member;
+				try {
+					member = await this.server.members.fetch(memberId);
+				} catch (e) {
+					return this.removeUnverified(memberId);
+				}
+
 				if (member.roles.cache.has("1231247596471717908") || member.roles.cache.has("1231247596459130983")) {
-					return this.verify(member.id);
+					return this.removeUnverified(member.id);
 				}
 
 				if ((Date.now() - (member?.joinedTimestamp || 0)) > 2592e6) {
@@ -51,7 +63,7 @@ export class Automod extends Manager {
 		}, 3e4);
 	}
 
-	verify(id: string) {
+	removeUnverified(id: string) {
 		const index = this.unverifiedMembers.indexOf(id);
 		if (index !== -1) {
 			this.unverifiedMembers.splice(index, 1);
