@@ -1,4 +1,4 @@
-import { DiscordClient } from "..";
+import { DiscordClient } from "../..";
 
 export class Event {
 	type = "ready";

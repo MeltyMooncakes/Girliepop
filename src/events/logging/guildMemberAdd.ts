@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember } from "discord.js";
-import { AccountNotOldEnough } from "../errors";
-import { DiscordClient } from "..";
+import { AccountNotOldEnough } from "../../errors";
+import { DiscordClient } from "../..";
 
 export class Event {
 	type = "guildMemberAdd";
@@ -15,7 +15,7 @@ export class Event {
 			.setColor("Green")
 			.setAuthor({
 				name: `@${member.user.username} (${member.id})`,
-				iconURL: member.avatarURL() || member.user.avatarURL() || "",
+				iconURL: member.avatarURL() || member.user.avatarURL() || undefined,
 			})
 			.setDescription(`<@${member.user.id}> joined Discord <t:${Math.trunc(member.user.createdTimestamp / 1000)}:R>`)
 			.setTimestamp();

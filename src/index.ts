@@ -9,6 +9,7 @@ import { CaptchaManager } from "./managers/captcha";
 import { Automod } from "./managers/automod";
 import { LoggingManager } from "./managers/logging";
 import { Db, MongoClient, ServerApiVersion } from "mongodb";
+import { CaseManager } from "./managers/cases";
 
 
 export class DiscordClient extends Client {
@@ -18,6 +19,8 @@ export class DiscordClient extends Client {
 	captchas: CaptchaManager;
 	logger: LoggingManager;
 	automod: Automod;
+	cases: CaseManager;
+
 	mongo: MongoClient;
 	db: Db;
 
@@ -27,16 +30,19 @@ export class DiscordClient extends Client {
 		if (!existsSync("./configs/secrets.yaml")) {
 			console.log("./configs/secrets.yaml was not found, creating base file.\nPlease set up this file before starting the bot.");
 			writeFileSync("./configs/secrets.yaml", "botToken: INSERT-TOKEN-HERE", "utf-8");
-			exit(1);	
+			exit(1);
 		}
 
 		this.secrets = parse(readFileSync("./configs/secrets.yaml", "utf-8"));
 		this.config = parse(readFileSync("./configs/config.yaml", "utf-8"));
 		this.config.prefix = new RegExp(this.config.prefix, "i");
+		
 		this.commands = new CommandManager(this);
 		this.captchas = new CaptchaManager(this);
 		this.logger = new LoggingManager(this);
+		this.cases = new CaseManager(this);
 		this.automod = new Automod(this);
+
 		this.mongo = new MongoClient(this.secrets.mongodbUri, {
 			serverApi: {
 				version: ServerApiVersion.v1,
@@ -48,7 +54,7 @@ export class DiscordClient extends Client {
 	}
 
 	async start() {
-		for await (const eventFile of await glob(`${resolve(__dirname, "./")}/events/*`, {})) {
+		for await (const eventFile of await glob(`${resolve(__dirname, "./")}/events/*/*`, {})) {
 			const { Event } = await import(eventFile),
 				event = new Event(this);
 
@@ -56,7 +62,7 @@ export class DiscordClient extends Client {
 		}
 
 		await this.mongo.connect();
-	    await this.mongo.db("admin").command({ ping: 1 });
+		await this.mongo.db("admin").command({ ping: 1 });
 
 		this.login(this.secrets.botToken);
 	}
@@ -69,7 +75,8 @@ const client = new DiscordClient({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildPresences,
 		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.DirectMessages
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.GuildModeration
 	],
 	partials: [Partials.Message, Partials.GuildMember]
 });

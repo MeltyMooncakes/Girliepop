@@ -1,5 +1,5 @@
 import { ButtonInteraction, Interaction } from "discord.js";
-import { DiscordClient } from "..";
+import { DiscordClient } from "../..";
 
 export class Event {
 	type = "interactionCreate";

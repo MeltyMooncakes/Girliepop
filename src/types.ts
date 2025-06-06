@@ -14,6 +14,7 @@ interface LoggingChannels {
 	roles: string;
 	members: string;
 	messages: string;
+	moderation: string;
 }
 
 type LogEntryType = keyof(LoggingChannels);
@@ -22,4 +23,16 @@ interface LogEntry {
 	type: LogEntryType;
 	serverId: string;
 	embed: object;
+}
+
+type CaseEntryType = "warning" | "ban" | "mute" | "kick" | "unban";
+
+interface CaseEntry {
+	type: CaseEntryType;
+	user: string;
+	reason: string;
+	moderator: string;
+	timestamp: number;
+	server: string;
+	manual: boolean;
 }

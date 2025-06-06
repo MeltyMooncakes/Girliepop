@@ -1,6 +1,6 @@
 import { ChannelType, Message } from "discord.js";
-import { DiscordClient } from "..";
-import { NotDeveloper } from "../errors";
+import { DiscordClient } from "../..";
+import { NotDeveloper } from "../../errors";
 
 export class Event {
 	type = "messageCreate";

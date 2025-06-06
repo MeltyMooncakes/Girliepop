@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember } from "discord.js";
-import { AccountNotOldEnough } from "../errors";
-import { DiscordClient } from "..";
+import { AccountNotOldEnough } from "../../errors";
+import { DiscordClient } from "../..";
 
 export class Event {
 	type = "guildMemberRemove";

@@ -1,5 +1,5 @@
 import { ButtonInteraction, EmbedBuilder, GuildMember, Interaction, Message } from "discord.js";
-import { DiscordClient } from "..";
+import { DiscordClient } from "../..";
 
 export class Event {
 	type = "messageUpdate";
