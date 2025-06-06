@@ -4,6 +4,7 @@ import { Manager } from "../structures/manager";
 import { readFileSync } from "fs";
 import { ChannelType, EmbedBuilder, Guild } from "discord.js";
 import { randomUUID } from "crypto";
+import { ObjectId } from "mongodb";
 
 export class LoggingManager extends Manager {
 	id = "logger";
@@ -12,7 +13,6 @@ export class LoggingManager extends Manager {
 	interval: NodeJS.Timeout;
 	logChannels: LoggingChannels;
 
-	queue: LogEntry[] = [];
 	server: Guild;
 
 	constructor(client: DiscordClient) {
@@ -23,24 +23,40 @@ export class LoggingManager extends Manager {
 	}
 
 	async setup() {
-		this.server = await this.client.guilds.fetch("1231247596459130974");
-
 		this.interval = setInterval(async () => {
-			if (this.queue.length === 0) {
+			const queue = await this.client.db.collection("logging").find({}).toArray();
+			if (queue.length === 0) {
 				return;
 			}
 
-			const entry = this.queue[0];
+			const entry = queue[0];
+
+			await this.client.db.collection("logging").deleteOne({ _id: entry._id });
+			let server;
+			try {
+				server = await this.client.guilds.fetch(entry.serverId);
+			} catch (e) {
+				return console.log(`[LOGS] ${entry["serverId"]} Failed to fetch server.`);
+			}
+
+			let dbEntry;
+			try {
+				const dbEntries = await this.client.db.collection("servers").find({ id: entry.serverId }).toArray();
+				dbEntry = dbEntries[0];
+			} catch (e) {
+				return console.log(`[LOGS] ${entry["serverId"]} Could not find server in database.`);
+			}
+
 
 			let channel;
 			try {
-				channel = await this.server.channels.fetch(this.logChannels[entry.type]);
+				channel = await server.channels.fetch(dbEntry["channels"][entry.type]);
 			} catch (e) {
-				return console.log(`[LOGS] ${this.logChannels[entry.type]} Failed to fetch channel.`);
+				return console.log(`[LOGS] ${dbEntry["channels"][entry.type]} Failed to fetch channel.`);
 			}
 
 			if (channel?.type !== ChannelType.GuildText) {
-				return console.log(`[LOGS] ${this.logChannels[entry.type]} Fetched channel was not a text channel.`);
+				return console.log(`[LOGS] ${dbEntry["channels"][entry.type]} Fetched channel was not a text channel.`);
 			}
 
 			try {
@@ -48,22 +64,26 @@ export class LoggingManager extends Manager {
 					embeds: [entry.embed],
 				});
 			} catch (e) {
-				console.log(`[LOGS] ${this.logChannels[entry.type]} Failed to send logging message.`);
+				console.log(e);
+				console.log(`[LOGS] ${dbEntry["channels"][entry.type]} Failed to send logging message.`);
 			}
-
-			this.removeEntry(entry.id);
 		}, 1e3);
 	}
 
-	addEntry(type: LogEntryType, embed: EmbedBuilder) {
-		const id = randomUUID();
+	async addEntry(type: LogEntryType, embed: EmbedBuilder, serverId: string) {
+		const _id = new ObjectId();
+		try {
+			await this.client.db.collection("logging").insertOne({ type, serverId, _id,
+				embed: embed.toJSON()
+			 })
+		} catch (e) {
+			console.log(`[LOGS] ${_id.id} Failed to insert object into database.`);
+		}
 
-		this.queue.push({ embed, type, id });
-		console.log(id);
-		return id;
+		return _id.id;
 	}
 
-	removeEntry(id: string) {
-		this.queue = this.queue.filter(entry => entry.id !== id);
+	async removeEntry(id: string) {
+		await this.client.db.collection("logging").deleteOne({ _id: new ObjectId(id) });
 	}
 }

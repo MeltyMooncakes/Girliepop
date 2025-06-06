@@ -31,11 +31,11 @@ export class Event {
 			.setColor("Yellow")
 			.setAuthor({
 				name: `@${newMember.user.username} (${newMember.id})`,
-				iconURL: newMember.avatarURL() || newMember.user.avatarURL() || "",
+				iconURL: newMember.avatarURL() || newMember.user.avatarURL() || undefined,
 			})
 			.setDescription(description)
 			.setTimestamp();
 
-		client.logger.addEntry("roles", embed);
+		await client.logger.addEntry("roles", embed, newMember.guild.id);
 	}
 }

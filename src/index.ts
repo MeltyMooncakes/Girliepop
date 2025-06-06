@@ -8,6 +8,7 @@ import { exit } from "process";
 import { CaptchaManager } from "./managers/captcha";
 import { Automod } from "./managers/automod";
 import { LoggingManager } from "./managers/logging";
+import { Db, MongoClient, ServerApiVersion } from "mongodb";
 
 
 export class DiscordClient extends Client {
@@ -17,6 +18,8 @@ export class DiscordClient extends Client {
 	captchas: CaptchaManager;
 	logger: LoggingManager;
 	automod: Automod;
+	mongo: MongoClient;
+	db: Db;
 
 	constructor(options: ClientOptions) {
 		super(options);
@@ -34,6 +37,14 @@ export class DiscordClient extends Client {
 		this.captchas = new CaptchaManager(this);
 		this.logger = new LoggingManager(this);
 		this.automod = new Automod(this);
+		this.mongo = new MongoClient(this.secrets.mongodbUri, {
+			serverApi: {
+				version: ServerApiVersion.v1,
+				strict: true,
+				deprecationErrors: true,
+			},
+		});
+		this.db = this.mongo.db("girls");
 	}
 
 	async start() {
@@ -43,6 +54,9 @@ export class DiscordClient extends Client {
 
 			this.on(event.type, (...args) => event.run(this, ...args));
 		}
+
+		await this.mongo.connect();
+	    await this.mongo.db("admin").command({ ping: 1 });
 
 		this.login(this.secrets.botToken);
 	}

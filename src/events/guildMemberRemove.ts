@@ -15,11 +15,11 @@ export class Event {
 			.setColor("Red")
 			.setAuthor({
 				name: `@${member.user.username} (${member.id})`,
-				iconURL: member.avatarURL() || member.user.avatarURL() || "",
+				iconURL: member.avatarURL() || member.user.avatarURL() || undefined,
 			})
-			.setDescription(`<@${member.user.id}> joined this server <t:${(member?.joinedTimestamp || 0) / 1000}:R>`)
+			.setDescription(`<@${member.user.id}> joined this server <t:${Math.trunc((member?.joinedTimestamp || 0) / 1000)}:R>`)
 			.setTimestamp();
 
-		client.logger.addEntry("members", embed);
+		await client.logger.addEntry("members", embed, member.guild.id);
 	}
 }
