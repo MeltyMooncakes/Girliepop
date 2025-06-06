@@ -10,5 +10,6 @@ export class Event {
 	async run(client: DiscordClient) {
 		console.log(`[BOT] I AM ALIVE BITCHES`);
 		client.automod.setup();
+		client.logger.setup();
 	}
 }
