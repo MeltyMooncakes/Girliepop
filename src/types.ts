@@ -11,6 +11,7 @@ interface ClientSecrets {
 
 interface LoggingChannels {
 	roles: string;
+	members: string;
 }
 
 type LogEntryType = keyof(LoggingChannels);

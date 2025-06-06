@@ -1,4 +1,4 @@
-import { GuildMember } from "discord.js";
+import { EmbedBuilder, GuildMember } from "discord.js";
 import { AccountNotOldEnough } from "../errors";
 import { DiscordClient } from "..";
 
@@ -9,6 +9,18 @@ export class Event {
 
 	async run(client: DiscordClient, member: GuildMember) {
 		client.automod.unverifiedMembers.push(member.id);
+
+
+		const embed = new EmbedBuilder()
+			.setColor("Green")
+			.setAuthor({
+				name: `@${member.user.username} (${member.id})`,
+				iconURL: member.avatarURL() || member.user.avatarURL() || "",
+			})
+			.setDescription(`<@${member.user.id}> joined Discord <t:${member.user.createdTimestamp / 1000}:R>`)
+			.setTimestamp();
+
+		client.logger.addEntry("members", embed);
 
 		// if account is younger than 30 days.
 		if ((Date.now() - (member?.user.createdTimestamp || 2592e6)) < 2592e6 && member.id !== "1372852461521342476") {
