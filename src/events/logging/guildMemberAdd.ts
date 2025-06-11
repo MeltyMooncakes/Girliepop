@@ -20,7 +20,7 @@ export class Event {
 			.setDescription(`<@${member.user.id}> joined Discord <t:${Math.trunc(member.user.createdTimestamp / 1000)}:R>`)
 			.setTimestamp();
 
-		await client.logger.addEntry("members", embed, member.guild.id);
+		await client.logger.addEntry("members", { embeds: [embed.toJSON()]}, member.guild.id);
 
 		// if account is younger than 30 days.
 		if ((Date.now() - (member?.user.createdTimestamp || 2592e6)) < 2592e6 && member.id !== "1372852461521342476") {

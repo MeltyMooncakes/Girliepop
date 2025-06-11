@@ -1,20 +1,28 @@
-import { Message, SlashCommandOptionsOnlyBuilder } from "discord.js";
+import { Message, SlashCommandBuilder, SlashCommandOptionsOnlyBuilder } from "discord.js";
 import { DiscordClient } from "../";
 
 export default class DiscordCommand {
 	client: DiscordClient;
 
 	name: string;
+	description: string;
+
 	textArgs: string;
 	aliases: string[];
 
 	developer: boolean;
 
-	options: SlashCommandOptionsOnlyBuilder
-	
+	slash: SlashCommandBuilder = new SlashCommandBuilder();
+
 	constructor(client: DiscordClient) {
 		this.client = client;
 	}
-	
-	async message(message: Message, args: string[]) {}
+
+	setup() {
+		this.slash
+			.setName(this.name)
+			.setDescription(this?.description || "No description provided.");
+	}
+
+	async message(message: Message, args: string[]): Promise<any> { }
 }

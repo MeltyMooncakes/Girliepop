@@ -24,7 +24,7 @@ export class Event {
 		}
 
 		if (removedRoles.size > 0) {
-			description += `**Added Role${removedRoles.size > 1 ? "s" : ""}**: ${removedRoles.map(role => `\`${role.name}\``).join(", ")}\n`;
+			description += `**Removed Role${removedRoles.size > 1 ? "s" : ""}**: ${removedRoles.map(role => `\`${role.name}\``).join(", ")}\n`;
 		}
 
 		const embed = new EmbedBuilder()
@@ -36,6 +36,6 @@ export class Event {
 			.setDescription(description)
 			.setTimestamp();
 
-		await client.logger.addEntry("roles", embed, newMember.guild.id);
+		await client.logger.addEntry("roles", { embeds: [embed.toJSON()] }, newMember.guild.id);
 	}
 }

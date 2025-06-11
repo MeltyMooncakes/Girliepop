@@ -10,6 +10,7 @@ import { Automod } from "./managers/automod";
 import { LoggingManager } from "./managers/logging";
 import { Db, MongoClient, ServerApiVersion } from "mongodb";
 import { CaseManager } from "./managers/cases";
+import { Publisher } from "./managers/publisher";
 
 
 export class DiscordClient extends Client {
@@ -17,6 +18,8 @@ export class DiscordClient extends Client {
 	config: ClientConfig;
 	commands: CommandManager;
 	captchas: CaptchaManager;
+	publisher: Publisher;
+	
 	logger: LoggingManager;
 	automod: Automod;
 	cases: CaseManager;
@@ -39,6 +42,8 @@ export class DiscordClient extends Client {
 		
 		this.commands = new CommandManager(this);
 		this.captchas = new CaptchaManager(this);
+		this.publisher = new Publisher(this);
+
 		this.logger = new LoggingManager(this);
 		this.cases = new CaseManager(this);
 		this.automod = new Automod(this);

@@ -20,6 +20,6 @@ export class Event {
 			.setDescription(`<@${member.user.id}> joined this server <t:${Math.trunc((member?.joinedTimestamp || 0) / 1000)}:R>`)
 			.setTimestamp();
 
-		await client.logger.addEntry("members", embed, member.guild.id);
+		await client.logger.addEntry("members", { embeds: [embed.toJSON()] }, member.guild.id);
 	}
 }

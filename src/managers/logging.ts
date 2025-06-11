@@ -2,9 +2,10 @@ import { parse } from "yaml";
 import { DiscordClient } from "..";
 import { Manager } from "../structures/manager";
 import { readFileSync } from "fs";
-import { ChannelType, EmbedBuilder, Guild } from "discord.js";
+import { ChannelType, EmbedBuilder, Guild, MessagePayloadOption } from "discord.js";
 import { randomUUID } from "crypto";
 import { ObjectId } from "mongodb";
+import { MessageOptions } from "child_process";
 
 export class LoggingManager extends Manager {
 	id = "logger";
@@ -60,9 +61,7 @@ export class LoggingManager extends Manager {
 			}
 
 			try {
-				await channel.send({
-					embeds: [entry.embed],
-				});
+				await channel.send(entry.message);
 			} catch (e) {
 				console.log(e);
 				console.log(`[LOGS] ${dbEntry["channels"][entry.type]} Failed to send logging message.`);
@@ -70,12 +69,11 @@ export class LoggingManager extends Manager {
 		}, 1e3);
 	}
 
-	async addEntry(type: LogEntryType, embed: EmbedBuilder, serverId: string) {
+	async addEntry(type: LogEntryType, message: MessagePayloadOption, serverId: string) {
 		const _id = new ObjectId();
+
 		try {
-			await this.client.db.collection("logging").insertOne({ type, serverId, _id,
-				embed: embed.toJSON()
-			 })
+			await this.client.db.collection("logging").insertOne({ type, serverId, _id, message });
 		} catch (e) {
 			console.log(`[LOGS] ${_id.id} Failed to insert object into database.`);
 		}

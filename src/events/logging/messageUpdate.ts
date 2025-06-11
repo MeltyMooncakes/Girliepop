@@ -1,4 +1,4 @@
-import { ButtonInteraction, EmbedBuilder, GuildMember, Interaction, Message } from "discord.js";
+import { AttachmentBuilder, ButtonInteraction, EmbedBuilder, GuildMember, Interaction, Message } from "discord.js";
 import { DiscordClient } from "../..";
 
 export class Event {
@@ -7,9 +7,23 @@ export class Event {
 	constructor() { }
 
 	async run(client: DiscordClient, oldMessage: Message, newMessage: Message) {
-		if (oldMessage.content !== newMessage.content) {
-			
-		}
+		// if (oldMessage.content !== newMessage.content) {
+
+		// 	const embed = new EmbedBuilder()
+		// 		.setColor("Red")
+		// 		.setAuthor({
+		// 			name: `@${newMessage.author.username} (${newMessage.author.id})`,
+		// 			iconURL: newMessage?.member?.avatarURL() || newMessage.author.avatarURL() || undefined,
+		// 		})
+		// 		.setTimestamp();
+
+		// 	await client.logger.addEntry("messages", {
+		// 		embeds: [embed.toJSON()],
+		// 		files: [new AttachmentBuilder(oldMessage.content, {
+		// 			name: "Content.txt",
+		// 		})],
+		// 	}, newMessage?.guild?.id || "0");
+		// }
 	}
 
 	// async roleUpdate(client: DiscordClient, oldMember: GuildMember, newMember: GuildMember) {

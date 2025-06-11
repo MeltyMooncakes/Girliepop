@@ -19,7 +19,7 @@ export class Event {
 			.setFooter({ text: "User Banned" })
 			.setTimestamp();
 
-		await client.logger.addEntry("moderation", embed, ban.guild.id);
+		await client.logger.addEntry("moderation", { embeds: [embed.toJSON()] }, ban.guild.id);
 
 		if ((ban?.reason || "").startsWith("[Girliepop]")) {
 			return;

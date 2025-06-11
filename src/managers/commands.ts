@@ -22,9 +22,12 @@ export class CommandManager extends CollectionManager<string, Command> {
 			for await (const commandPath of commandFiles) {
 				const { Command } = await import(commandPath),
 					command = new Command(this.client);
+					
+				command.setup();
 
 				command.category = category;
 				command.path = commandPath;
+				console.log(command.slash);
 
 				this.set(command.name, command);
 			}

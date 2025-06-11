@@ -22,7 +22,7 @@ type LogEntryType = keyof(LoggingChannels);
 interface LogEntry {
 	type: LogEntryType;
 	serverId: string;
-	embed: object;
+	message: object;
 }
 
 type CaseEntryType = "warning" | "ban" | "mute" | "kick" | "unban";
@@ -35,4 +35,11 @@ interface CaseEntry {
 	timestamp: number;
 	server: string;
 	manual: boolean;
+}
+
+interface SlashBasicInfo {
+	name: string;
+	description: string;
+	nameLocalized: string;
+	descriptionLocalized: string;
 }

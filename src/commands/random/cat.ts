@@ -1,21 +1,21 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { DiscordClient } from "../..";
 import axios from "axios";
+import DiscordCommand from "../../structures/command";
 
-export class Command {
-	client: DiscordClient;
-
+export class Command extends DiscordCommand {
 	name = "cat";
 	textArgs = "";
 	aliases = [];
+	description = "Sends a random picture of a cat.";
 	
 	developer = false;
 	
 	constructor(client: DiscordClient) {
-		this.client = client;
+		super(client);
 	}
 
-	async message(message: Message, _args: string[]) {
+	async message(message: Message, args: string[]) {
 		return await message.reply({
 			embeds: [
 				new EmbedBuilder()
