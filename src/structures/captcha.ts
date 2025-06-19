@@ -79,9 +79,13 @@ export default class Captcha {
 
 		this.client.automod.removeUnverified(this.interaction.user.id);
 
-		await m.reply({
-			content: "Verification completed, Welcome to the server!",
-		});
+		try {
+			await m.reply({
+				content: "Verification completed, Welcome to the server!",
+			});
+		} catch (e) {
+			console.log(`[VERIFY] [${this.interaction.user.id}] Captcha has succeeded, however final message failed.`);
+		}
 
 		console.log(`[VERIFY] [${this.interaction.user.id}] Verification for user has completed.`);
 
