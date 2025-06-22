@@ -1,4 +1,4 @@
-import { Client, ClientOptions, CommandInteraction, EmbedBuilder, GatewayIntentBits, Message, Partials } from "discord.js";
+import { Client, ClientOptions, CommandInteraction, EmbedBuilder, GatewayIntentBits, Message, Options, Partials } from "discord.js";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { parse } from "yaml";
 import { glob } from "glob";
@@ -27,8 +27,16 @@ export class DiscordClient extends Client {
 	mongo: MongoClient;
 	db: Db;
 
+	captchaDisabled: boolean = false;
+
 	constructor(options: ClientOptions) {
 		super(options);
+
+
+		if (process.argv.some(a => /-disablecaptchas/gi.test(a))) {
+			console.log("Captchas have been disabled for this instance.");
+			this.captchaDisabled = true;
+		}
 
 		if (!existsSync("./configs/secrets.yaml")) {
 			console.log("./configs/secrets.yaml was not found, creating base file.\nPlease set up this file before starting the bot.");
@@ -74,6 +82,13 @@ export class DiscordClient extends Client {
 }
 
 const client = new DiscordClient({
+	sweepers: {
+		...Options.DefaultSweeperSettings,
+		messages: {
+			lifetime: 3600,
+			interval: 3600
+		}
+	},
 	intents: [
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.Guilds,

@@ -14,6 +14,10 @@ export class CaptchaManager extends CollectionManager<string, Captcha> {
 	}
 
 	async create(interaction: ButtonInteraction) {
+
+		if (this.client.captchaDisabled) {
+			return console.log(`[VERIFY] [${interaction.user.id}] Ignoring captcha attempt (Disabled).`);
+		}
 		// if user is already in the process of verifying.
 		if (this.some(c => c.interaction.member?.user.id === interaction.member?.user.id)) {
 			return await interaction.reply({
