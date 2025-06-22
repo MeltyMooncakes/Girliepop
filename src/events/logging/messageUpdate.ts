@@ -44,7 +44,7 @@ export class Event {
 			.setFooter({ text: `Message edited in ${oldMessage.channel.name}` })
 			.setTimestamp();
 
-		client.logger.addEntry("messages", { embeds: [embed]}, oldMessage.guild?.id || "");
+		client.logger.addEntry("messages", { embeds: [embed.toJSON()] }, oldMessage.guild?.id || "");
 	}
 
 	// async roleUpdate(client: DiscordClient, oldMember: GuildMember, newMember: GuildMember) {
