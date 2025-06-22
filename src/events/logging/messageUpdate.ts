@@ -5,22 +5,12 @@ import diff from "fast-diff";
 export class Event {
 	type = "messageUpdate";
 
-	constructor() { 
-		console.log("hgedrsgaaaaaer")}
+	constructor() { }
 
 	async run(client: DiscordClient, oldMessage: Message, newMessage: Message) {
-		console.log("hgedrsger")
 		if (oldMessage.content !== newMessage.content) {
 			return await this.edited(client, oldMessage, newMessage);
 		}
-
-		// 	await client.logger.addEntry("messages", {
-		// 		embeds: [embed.toJSON()],
-		// 		files: [new AttachmentBuilder(oldMessage.content, {
-		// 			name: "Content.txt",
-		// 		})],
-		// 	}, newMessage?.guild?.id || "0");
-		// }
 	}
 
 	async edited(client: DiscordClient, oldMessage: Message, newMessage: Message) {
@@ -28,11 +18,13 @@ export class Event {
 			return;
 		}
 
-		console.log(oldMessage.content, newMessage.content);
-		const content = diff(oldMessage.content, newMessage.content)
+		let content = `### New:\n${newMessage.content}`;
+		if (oldMessage.content !== null) {
+			content = diff(oldMessage.content, newMessage.content)
 			.map(pair => {
 				return ["", "**", "~~"].at(pair[0]) + pair[1] + ["", "**", "~~"].at(pair[0]);
 			}).join("");
+		}
 
 		const embed = new EmbedBuilder()
 			.setColor("Yellow")
