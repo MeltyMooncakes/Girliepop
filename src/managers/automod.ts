@@ -71,6 +71,5 @@ export class Automod extends Manager {
 	}
 
 	async checkMessage(message: Message) {
-		if ()
 	}
 }
