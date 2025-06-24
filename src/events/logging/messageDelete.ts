@@ -11,7 +11,7 @@ export class Event {
 			return;
 		}
 
-		if (message.user === null) {
+		if (message.author === null) {
 			return;
 		}
 

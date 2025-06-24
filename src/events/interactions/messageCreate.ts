@@ -12,6 +12,8 @@ export class Event {
 			return;
 		}
 
+		client.automod.checkMessage(message)
+
 		const captcha = client.captchas.find(k => k.captchaMessage.channelId === message.channelId);
 
 		if (captcha) {

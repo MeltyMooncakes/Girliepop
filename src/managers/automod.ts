@@ -1,4 +1,4 @@
-import { Guild } from "discord.js";
+import { Guild, Message } from "discord.js";
 import { DiscordClient } from "..";
 import { Manager } from "../structures/manager";
 import { AccountUnverifiedTooLong } from "../errors";
@@ -68,5 +68,9 @@ export class Automod extends Manager {
 		if (index !== -1) {
 			this.unverifiedMembers.splice(index, 1);
 		}
+	}
+
+	async checkMessage(message: Message) {
+		if ()
 	}
 }
