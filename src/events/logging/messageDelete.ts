@@ -11,6 +11,10 @@ export class Event {
 			return;
 		}
 
+		if (message.user === null) {
+			return;
+		}
+
 		const embed = new EmbedBuilder()
 			.setColor("Red")
 			.setAuthor({
