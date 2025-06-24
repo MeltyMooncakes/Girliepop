@@ -21,7 +21,7 @@ export class Event {
 				name: `@${message.author.username} (${message.author.id})`,
 				iconURL: message?.member?.avatarURL() || message.author.avatarURL() || undefined,
 			})
-			.setDescription(message.content)
+			.setDescription(message.content.slice(0,2048))
 			.setImage(message.embeds.find(e => e.image !== null)?.image?.url || message.attachments.first()?.url || null)
 			.setFooter({ text: `Message deleted in ${message.channel.name}` })
 			.setTimestamp();

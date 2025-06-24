@@ -32,7 +32,7 @@ export class Event {
 				name: `@${newMessage.author.username} (${newMessage.author.id})`,
 				iconURL: newMessage?.member?.avatarURL() || newMessage.author.avatarURL() || undefined,
 			})
-			.setDescription(content)
+			.setDescription(content.slice(0,2048))
 			.setFooter({ text: `Message edited in ${oldMessage.channel.name}` })
 			.setTimestamp();
 
