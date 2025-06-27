@@ -18,12 +18,18 @@ export class Event {
 			return;
 		}
 
-		let content = `### New:\n${newMessage.content}`;
+		let content: string | null = `### New:\n${newMessage.content}`;
 		if (oldMessage.content !== null) {
 			content = diff(oldMessage.content, newMessage.content)
 			.map(pair => {
 				return ["", "**", "~~"].at(pair[0]) + pair[1] + ["", "**", "~~"].at(pair[0]);
 			}).join("");
+		}
+
+		content = content.slice(0,2048);
+		
+		if (content.length === 0) {
+			content = null;
 		}
 
 		const embed = new EmbedBuilder()
@@ -32,7 +38,7 @@ export class Event {
 				name: `@${newMessage.author.username} (${newMessage.author.id})`,
 				iconURL: newMessage?.member?.avatarURL() || newMessage.author.avatarURL() || undefined,
 			})
-			.setDescription(content.slice(0,2048))
+			.setDescription(content)
 			.setFooter({ text: `Message edited in ${oldMessage.channel.name}` })
 			.setTimestamp();
 
