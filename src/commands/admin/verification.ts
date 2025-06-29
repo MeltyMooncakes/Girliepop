@@ -24,7 +24,7 @@ export class Command extends DiscordCommand {
 			embeds: [
 				new EmbedBuilder()
 					.setTitle("Verification")
-					.setDescription("Click the button below to verify.")
+					.setDescription("Click the button below to verify.").toJSON()
 			],
 			components: [
 				new ActionRowBuilder()
