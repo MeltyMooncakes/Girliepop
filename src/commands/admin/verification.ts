@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, EmbedBuilder, Message } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, Message } from "discord.js";
 import { DiscordClient } from "../..";
 import axios from "axios";
 import DiscordCommand from "../../structures/command";
@@ -32,6 +32,7 @@ export class Command extends DiscordCommand {
 						new ButtonBuilder()
 							.setCustomId("girls-verify")
 							.setLabel("Verify")
+							.setStyle(ButtonStyle.Success)
 					).toJSON()
 			]
 		});
