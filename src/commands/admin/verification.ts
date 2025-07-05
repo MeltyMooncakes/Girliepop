@@ -8,9 +8,9 @@ export class Command extends DiscordCommand {
 	textArgs = "";
 	aliases = [];
 	description = "Creates a bot verification message.";
-	
+
 	developer = false;
-	
+
 	constructor(client: DiscordClient) {
 		super(client);
 	}
@@ -20,21 +20,23 @@ export class Command extends DiscordCommand {
 			return;
 		}
 
+		const row = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId("girls-verify")
+					.setLabel("Verify")
+					.setStyle(ButtonStyle.Success)
+			);
+
+
 		message.channel.send({
 			embeds: [
 				new EmbedBuilder()
 					.setTitle("Verification")
 					.setDescription("Click the button below to verify.").toJSON()
 			],
-			components: [
-				new ActionRowBuilder()
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("girls-verify")
-							.setLabel("Verify")
-							.setStyle(ButtonStyle.Success)
-					).toJSON()
-			]
+			// @ts-ignore
+			components: [row]
 		});
 	}
 }
