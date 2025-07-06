@@ -25,7 +25,7 @@ export class Command extends DiscordCommand {
 				new ButtonBuilder()
 					.setCustomId("girls-verify")
 					.setLabel("Verify")
-					.setStyle(ButtonStyle.Success)
+					.setStyle(ButtonStyle.Secondary)
 					.setDisabled(false)
 			);
 
